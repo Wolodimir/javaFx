@@ -1,7 +1,9 @@
 package com.example.javafx;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -33,14 +35,33 @@ public class HelloApplication extends Application {
 
         Scene scene = new Scene(group, WIDTH, HEIGHT);
         scene.setCamera(camera);
-        stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            switch (event.getCode()){
-                case W :
-                    camera.translateZProperty().set(camera.translateZProperty().doubleValue() + 100);
-                    break;
-                case S :
-                    camera.translateZProperty().set(camera.translateZProperty().doubleValue() - 100);
-                    break;
+        int camSpeed = 10;
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case RIGHT:
+                        scene.getCamera().setTranslateX(camera.getTranslateX() + camSpeed);
+                        break;
+                    case LEFT:
+                        scene.getCamera().setTranslateX(camera.getTranslateX() - camSpeed);
+                        break;
+                    case UP:
+                        scene.getCamera().setTranslateY(camera.getTranslateY() - camSpeed);
+                        break;
+                    case DOWN:
+                        scene.getCamera().setTranslateY(camera.getTranslateY() + camSpeed);
+                        break;
+                    case S:
+                        scene.getCamera().setRotationAxis(new Point3D(1, 0, 0));
+                        scene.getCamera().setRotate(scene.getCamera().getRotate() + 5);
+                        break;
+                    case W:
+                        scene.getCamera().setRotationAxis(new Point3D(1, 0, 0));
+                        scene.getCamera().setRotate(scene.getCamera().getRotate() - 5);
+                        break;
+
+                }
             }
         });
 
